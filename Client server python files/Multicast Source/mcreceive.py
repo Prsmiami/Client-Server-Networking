@@ -19,7 +19,7 @@ if __name__ == "__main__":
     soc.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP, socket.inet_aton(mc_addr) + socket.inet_aton(lhost))
 
     while 1:
-        data, addr = soc.recvfrom(1024)
+        data, addr = soc.recvfrom(256)
         print("Got:", data.decode())
 
 

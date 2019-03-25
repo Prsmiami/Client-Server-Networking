@@ -11,7 +11,7 @@ def doAccept(thesel, thesock, mask):
     thesel.register(commsoc, selectors.EVENT_READ, doRead)
 
 def doRead(thesel, thesock, mask):
-    data = thesock.recv(1024)
+    data = thesock.recv(256)
     esoc = socket.socket(type=socket.SOCK_DGRAM)
     mc_addr = "224.0.0.70"
     mc_port = 50000
@@ -22,10 +22,10 @@ def doRead(thesel, thesock, mask):
     if data:
         print("recv:", data)
         esoc.sendto(data,(mc_addr, mc_port))
-    else:
-        print("closing", thesock)
-        thesel.unregister(thesock)
-        thesock.close()
+##    else:
+##        print("closing", thesock)
+##        thesel.unregister(thesock)
+##        thesock.close()
 
 if __name__ == "__main__":
     
