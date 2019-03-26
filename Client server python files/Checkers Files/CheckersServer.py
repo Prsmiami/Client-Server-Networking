@@ -62,8 +62,14 @@ def doRead(thesel, thesock, mask):
             if(deleteflag == 1):
                 del waitlist[delindex]
             else:
-                i = len(waitlist)
-                waitlist[i] = waitinguser.make_waitinguser(thesock,data)
+                i=0
+                while(i < 100):
+                    if(waitlist[i] == 0):
+                        waitlist[i].socket = thesock
+                        waitlist[i].roomcode = data
+                        break
+                    i += 1
+                
 
 
 if __name__ == "__main__":
@@ -71,7 +77,11 @@ if __name__ == "__main__":
     randomflag = 0
     threadnum = 0
     randomopponent = 0
-    waitlist = [100]
+    waitlist = []
+    i = 0
+    while i < 100:
+        waitlist[i] = waitinguser.make_waitinguser(0,0)
+        i += 1
     
     # create the selector
     sel = selectors.DefaultSelector()
