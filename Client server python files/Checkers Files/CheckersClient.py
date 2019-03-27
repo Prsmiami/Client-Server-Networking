@@ -3,11 +3,18 @@ import datetime
 import stddraw
 import sys
 
-def printcheckboard(): 
+def f(x):   #dictionary for what color circle will be drawn over black square
+    return {
+        1: 'WHITE',
+        2: 'RED'
+    }.get(x, 'BLACK')   #default is black, so nothing shows if values[z]=0
+
+def printcheckboard(values): 
     n = 8
     stddraw.setXscale(0, n)
     stddraw.setYscale(0, n)
-    
+    z = 0 ##z is the spot in values array
+        
     for i in range(n):
         for j in range(n):
             if ((i + j) % 2) != 0:
@@ -15,6 +22,10 @@ def printcheckboard():
             else:
                 stddraw.setPenColor(stddraw.RED)
             stddraw.filledSquare(i + .5, j + .5, .5)
+            if(stddraw.getPenColor() == 'BLACK'):
+                stddraw.setPenColor( f(values[z]) )
+                stddraw.filledCircle(i + .5, j + .5, .25)
+                z+=1
     stddraw.show()
   
 
@@ -34,6 +45,7 @@ def Application(csoc):
     ##Recieve board
     ##Recieve turn code/endgame
     ##Input move or wait for recieve board
+    ##
 
     print(loopRecv(csoc,8).decode())
     # driver code 
