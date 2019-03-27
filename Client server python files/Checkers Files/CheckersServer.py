@@ -4,7 +4,9 @@ import threading
 
 class waitinguser:
     socket = 0
-    roomcode = 0
+    roomcode = 0  
+
+    
 
     def make_waitinguser(var1,var2):
         socket = var1
