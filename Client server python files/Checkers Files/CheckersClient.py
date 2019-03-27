@@ -34,7 +34,6 @@ def Application(csoc):
     ##Recieve board
     ##Recieve turn code/endgame
     ##Input move or wait for recieve board
-    ##
 
     print(loopRecv(csoc,8).decode())
     # driver code 
