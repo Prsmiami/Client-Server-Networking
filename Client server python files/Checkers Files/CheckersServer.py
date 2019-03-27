@@ -14,9 +14,6 @@ def make_waitinguser(var1,var2):
     user.roomcode = var2
     return user
 
-def setnext(temp):
-    nextuser = temp
-
 def doAccept(thesel, thesock, mask):
     # accept the connection
     commsoc, raddr = thesock.accept()
