@@ -3,12 +3,17 @@ import socket
 import threading
 
 class waitinguser:
+    prevuser = 0
     socket = 0
     roomcode = 0
+    nextuser = 0
 
     def make_waitinguser(var1,var2):
         socket = var1
         roomcode = var2
+
+    def setnext(temp):
+        nextuser = temp
 
 def doAccept(thesel, thesock, mask):
     # accept the connection
@@ -32,6 +37,8 @@ def doRead(thesel, thesock, mask):
     global randomopponent
     global waitlist
     deleteflag = 0
+    tempptr = waitlist
+    followingptr = waitinguser()
     if data:
         print("recv:", data)
 
@@ -50,26 +57,24 @@ def doRead(thesel, thesock, mask):
         if(data.decode() == 'C'):
             data = (thesock.recv(6)).decode()
             print("Room number: ",data)
-            for e in waitlist:
-                if(waitlist[e].roomcode == data):
+            while(tempptr > 0):
+                if(tempptr.roomcode == data):
                     t1 = threading.Thread(name="first", target=Roomhandler, args=(e.socket,thesock,mask))
                     t1.start()
                     thesel.unregister(e.sock)
                     thesel.unregister(thesock)
-                    delindex = e
                     deleteflag = 1
                     break
+                else:
+                    followingptr = tempptr
+                    tempptr = tempptr.nextuser
             if(deleteflag == 1):
-                del waitlist[delindex]
+                followingptr.nextuser = tempptr.nextuser
+                del tempptr
             else:
-                i=0
-                while(i < 100):
-                    if(waitlist[i] == 0):
-                        waitlist[i].socket = thesock
-                        waitlist[i].roomcode = data
-                        break
-                    i += 1
-                
+                ##issue will be with this user being deleted at end of function
+                newuser = waitinguser.make_waitinguser(thesock,data)
+                tempptr.nextuser = newuser
 
 
 if __name__ == "__main__":
@@ -77,11 +82,7 @@ if __name__ == "__main__":
     randomflag = 0
     threadnum = 0
     randomopponent = 0
-    waitlist = []
-    i = 0
-    while i < 100:
-        waitlist[i] = waitinguser.make_waitinguser(0,0)
-        i += 1
+    waitlist = watitinguser()
     
     # create the selector
     sel = selectors.DefaultSelector()
