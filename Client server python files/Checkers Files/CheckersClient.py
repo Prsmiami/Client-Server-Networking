@@ -14,6 +14,7 @@ def loopRecv(csoc, size):
 
 def Application(csoc):
 
+
     ##Recieve board
     ##Recieve turn code/endgame
     ##Input move or wait for recieve board

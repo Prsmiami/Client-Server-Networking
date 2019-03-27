@@ -8,12 +8,14 @@ class waitinguser:
     roomcode = 0
     nextuser = 0
 
-    def make_waitinguser(var1,var2):
-        socket = var1
-        roomcode = var2
+def make_waitinguser(var1,var2):
+    user = waitinguser()
+    user.socket = var1
+    user.roomcode = var2
+    return user
 
-    def setnext(temp):
-        nextuser = temp
+def setnext(temp):
+    nextuser = temp
 
 def doAccept(thesel, thesock, mask):
     # accept the connection
@@ -57,9 +59,9 @@ def doRead(thesel, thesock, mask):
         if(data.decode() == 'C'):
             data = (thesock.recv(6)).decode()
             print("Room number: ",data)
-            while(tempptr > 0):
+            while(tempptr != 0):
                 if(tempptr.roomcode == data):
-                    t1 = threading.Thread(name="first", target=Roomhandler, args=(e.socket,thesock,mask))
+                    t1 = threading.Thread(name="first", target=Roomhandler, args=(tempptr.socket,thesock,mask))
                     t1.start()
                     thesel.unregister(tempptr.socket)
                     thesel.unregister(thesock)
@@ -73,8 +75,8 @@ def doRead(thesel, thesock, mask):
                 del tempptr
             else:
                 ##issue will be with this user being deleted at end of function
-                newuser = waitinguser.make_waitinguser(thesock,data)
-                tempptr.nextuser = newuser
+                newuser = make_waitinguser(thesock,data)
+                followingptr.nextuser = newuser
 
 
 if __name__ == "__main__":
@@ -82,7 +84,6 @@ if __name__ == "__main__":
     randomflag = 0
     threadnum = 0
     randomopponent = 0
-    waitlist = watitinguser()
     
     # create the selector
     sel = selectors.DefaultSelector()
@@ -99,6 +100,8 @@ if __name__ == "__main__":
                    
     # make passive with backlog=10
     serversoc.listen(10)
+
+    waitlist = make_waitinguser(serversoc,0)
     
     # register the server socket
     sel.register(serversoc, selectors.EVENT_READ, doAccept)
