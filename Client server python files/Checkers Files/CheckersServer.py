@@ -61,7 +61,7 @@ def doRead(thesel, thesock, mask):
                 if(tempptr.roomcode == data):
                     t1 = threading.Thread(name="first", target=Roomhandler, args=(e.socket,thesock,mask))
                     t1.start()
-                    thesel.unregister(e.sock)
+                    thesel.unregister(tempptr.socket)
                     thesel.unregister(thesock)
                     deleteflag = 1
                     break
