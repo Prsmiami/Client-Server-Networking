@@ -16,7 +16,7 @@ def printcheckboard(values):
     z = 0 ##z is the spot in values string
         
     for i in range(n):
-        for j in range(n):
+        for j in range(n): 
             if ((i + j) % 2) != 0:
                 stddraw.setPenColor(stddraw.BLACK)
             else:
