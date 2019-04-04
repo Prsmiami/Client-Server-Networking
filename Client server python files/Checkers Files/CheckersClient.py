@@ -25,7 +25,7 @@ def printcheckboard(values):
                 stddraw.setPenColor(stddraw.RED)
             stddraw.filledSquare(j + .5, i + .5, .5)
             stddraw.setPenColor(stddraw.YELLOW)
-            location = rows[j] + cols[i]
+            location = rows[i] + cols[j]
             stddraw.text(j+.15, i+.1, location)
             if((i + j) % 2) == 0:
                 if(values[z] == '1'):           ##player 1
@@ -70,7 +70,9 @@ def Application(csoc):
 
     ##for untouched board in start state vvv
     startBoard='11111111111100000000222222222222'
+
     print(loopRecv(csoc,8).decode())
+    
     turn = loopRecv(csoc,1).decode()
     print(turn)
     board = loopRecv(csoc,32).decode()
@@ -79,9 +81,10 @@ def Application(csoc):
     
     #while !endgame for loops below
 
-    #if Turn, send 4 char move to server
-    if(turn=='T'):
+    
+    if(turn=='T'):          #if Turn, send 4 char move to server
         inputmove()
+        
     turn = loopRecv(csoc,1).decode()
     print(turn)
     board = loopRecv(csoc,32).decode()
