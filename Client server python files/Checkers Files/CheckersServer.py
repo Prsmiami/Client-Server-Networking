@@ -33,7 +33,9 @@ def doAccept(thesel, thesock, mask):
     thesel.register(commsoc, selectors.EVENT_READ, doRead)
 
 def Roomhandler(sock1, sock2, mask):
-    
+
+    sock1.setblocking(True)
+    sock2.setblocking(True)
     sock1.sendall(("socket 1").encode("utf-8"))
     sock2.sendall(("socket 2").encode("utf-8"))
 ##  turn 1 is for socket 1
