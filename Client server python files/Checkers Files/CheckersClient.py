@@ -13,7 +13,7 @@ def printcheckboard(values):
     n = 8
     stddraw.setXscale(0, n)
     stddraw.setYscale(0, n)
-    z = 0 ##z is the spot in values array
+    z = 0 ##z is the spot in values string
         
     for i in range(n):
         for j in range(n):
@@ -23,7 +23,10 @@ def printcheckboard(values):
                 stddraw.setPenColor(stddraw.RED)
             stddraw.filledSquare(i + .5, j + .5, .5)
             if(stddraw.getPenColor() == 'BLACK'):
-                stddraw.setPenColor( f(values[z]) )
+                if(values[z] == '1'):           ##player 1
+                    stddraw.setPenColor(stddraw.BLUE)
+                elif(values[z] == '2'):      ##player 2
+                    stddraw.setPenColor(stddraw.WHITE)
                 stddraw.filledCircle(i + .5, j + .5, .25)
                 z+=1
     stddraw.show()
@@ -46,7 +49,8 @@ def Application(csoc):
     ##Recieve turn code/endgame
     ##Input move or wait for recieve board
     ##
-
+    #values="12000000000000000000000000000000"
+    values="11111111111100000000222222222222"
     print(loopRecv(csoc,8).decode())
     # driver code 
     printcheckboard() 
