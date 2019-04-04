@@ -24,12 +24,17 @@ def printcheckboard(values):
             else:
                 stddraw.setPenColor(stddraw.RED)
             stddraw.filledSquare(j + .5, i + .5, .5)
+
+            stddraw.setPenColor(stddraw.YELLOW)
+            location = rows[i] + cols[j]
+            stddraw.text(j+.15, i+.1, location)
             if((i + j) % 2) == 0:
                 if(values[z] == '1'):           ##player 1
                     stddraw.setPenColor(stddraw.BLUE)
+                    stddraw.filledCircle(j + .5, i + .5, .25)
                 elif(values[z] == '2'):         ##player 2
                     stddraw.setPenColor(stddraw.WHITE)
-                stddraw.filledCircle(j + .5, i + .5, .25)
+                    stddraw.filledCircle(j + .5, i + .5, .25)
                 z+=1
     stddraw.show()
 
@@ -76,11 +81,20 @@ def Application(csoc):
     
     turn = loopRecv(csoc,1).decode()
     print(turn)
+
     board = loopRecv(csoc,32).decode()
     
     print(board)
-    printcheckboard(board) 
-    
+    printcheckboard(board)
+    isValid = 1;
+
+    if(turn=='T')
+        move = input()
+        while ((len(move) != 4) || !(isValid))
+            if(len(move) != 4)
+                print("Please enter a valid 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
+            if(!(isValid))
+                print("Please enter a valid move, your piece cant move there!"
     
 
 
