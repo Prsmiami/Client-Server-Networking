@@ -24,21 +24,86 @@ def printcheckboard(values):
             else:
                 stddraw.setPenColor(stddraw.RED)
             stddraw.filledSquare(j + .5, i + .5, .5)
-
-            stddraw.setPenColor(stddraw.YELLOW)
-            location = rows[i] + cols[j]
-            stddraw.text(j+.15, i+.1, location)
             if((i + j) % 2) == 0:
                 if(values[z] == '1'):           ##player 1
                     stddraw.setPenColor(stddraw.BLUE)
-                    stddraw.filledCircle(j + .5, i + .5, .25)
                 elif(values[z] == '2'):         ##player 2
                     stddraw.setPenColor(stddraw.WHITE)
-                    stddraw.filledCircle(j + .5, i + .5, .25)
+                stddraw.filledCircle(j + .5, i + .5, .25)
                 z+=1
     stddraw.show()
 
-def isvalid(move):
+def isvalid(board, move):
+
+    difference = 0
+
+    if(move[0] == 'A'):
+        mult = 0
+    elif(move[0] == 'B'):
+        mult = 1
+    elif(move[0] == 'C'):
+        mult = 2
+    elif(move[0] == 'D'):
+        mult = 3
+    elif(move[0] == 'E'):
+        mult = 4
+    elif(move[0] == 'F'):
+        mult = 5
+    elif(move[0] == 'G'):
+        mult = 6
+    elif(move[0] == 'H'):
+        mult = 7
+    if(move[1] == '1'):
+        base = 0
+    elif(move[1] == '2'):
+        base = 0
+    elif(move[1] == '3'):
+        base = 1
+    elif(move[1] == '4'):
+        base = 1
+    elif(move[1] == '5'):
+        base = 2
+    elif(move[1] == '6'):
+        base = 2
+    elif(move[1] == '7'):
+        base = 3
+    elif(move[1] == '8'):
+        base = 3
+    fromindex = base + (mult*4)
+
+    if(move[2] == 'A'):
+        mult = 0
+    elif(move[2] == 'B'):
+        mult = 1
+    elif(move[2] == 'C'):
+        mult = 2
+    elif(move[2] == 'D'):
+        mult = 3
+    elif(move[2] == 'E'):
+        mult = 4
+    elif(move[2] == 'F'):
+        mult = 5
+    elif(move[2] == 'G'):
+        mult = 6
+    elif(move[2] == 'H'):
+        mult = 7
+    if(move[3] == '1'):
+        base = 0
+    elif(move[3] == '2'):
+        base = 0
+    elif(move[3] == '3'):
+        base = 1
+    elif(move[3] == '4'):
+        base = 1
+    elif(move[3] == '5'):
+        base = 2
+    elif(move[3] == '6'):
+        base = 2
+    elif(move[3] == '7'):
+        base = 3
+    elif(move[3] == '8'):
+        base = 3
+    toindex = base + (mult*4)
 
     if((move[0] == (move[2]-1)) and move[0] != H):
         if(board[fromindex] == 1):
@@ -81,20 +146,11 @@ def Application(csoc):
     
     turn = loopRecv(csoc,1).decode()
     print(turn)
-
     board = loopRecv(csoc,32).decode()
     
     print(board)
-    printcheckboard(board)
-    isValid = 1;
-
-    if(turn=='T')
-        move = input()
-        while ((len(move) != 4) || !(isValid))
-            if(len(move) != 4)
-                print("Please enter a valid 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
-            if(!(isValid))
-                print("Please enter a valid move, your piece cant move there!"
+    printcheckboard(board) 
+    
     
 
 
