@@ -36,12 +36,20 @@ def endgamecheck(board):
     p1flag = 0
     p2flag = 0
     for e in board:
-        if(
+        if(board[e] == 1):
+            p1flag = 1
     for e in board:
-        if(
+        if(board[e] == 3):
+            p1flag = 1
     for e in board:
-        if(
+        if(board[e] == 2):
+            p2flag = 1
     for e in board:
+        if(board[e] == 4):
+            p2flag = 1
+    if(p1flag == 0): return(1)
+    if(p2flag == 0): return(2)
+    return(0)
 
 def Roomhandler(sock1, sock2, mask):
 
