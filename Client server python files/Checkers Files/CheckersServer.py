@@ -74,6 +74,7 @@ def Roomhandler(sock1, sock2, mask):
             for e in board:
                 sock1.sendall(str(e).encode("utf-8"))
                 sock2.sendall(str(e).encode("utf-8"))
+            print("Sent board")
             move = (loopRecv(sock1,4)).decode()
             print(move)
             if(move[0] == 'A'):
