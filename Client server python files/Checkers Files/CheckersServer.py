@@ -45,6 +45,7 @@ def Roomhandler(sock1, sock2, mask):
     base = 0
     fromindex = 0
     toindex = 0
+    difference = 0
     move = ""
     board = [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2]
     while(endgame != 1):
@@ -121,24 +122,7 @@ def Roomhandler(sock1, sock2, mask):
                 base = 3
             elif(move[3] == '8'):
                 base = 3
-            toindex = base + (mult*4)
-
-            if((move[0] == (move[2]-1)) and move[0] != H):
-                if(board[fromindex] == 1):
-                    if(board[toindex] == 0):
-                        board[fromindex] = 0
-                        board[toindex] = 1
-                    else: print("Please select a space that is not occupied by another piece.")
-##                else: print("Please select a piece that is yours. Your pieces are on the bottom.")
-##            elif((move[0] == (move[2]-2)) and (move[0] != H) and (move[0] != G)):
-##                if(board[fromindex] == 1):
-##                    if(board[toindex] == 0):
-##                        if(
-##                        else(
-##
-##                else: print("Please select a piece that is yours. Your pieces are on the bottom")
-                
-                
+            toindex = base + (mult*4)               
 
 
             

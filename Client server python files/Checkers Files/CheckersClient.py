@@ -32,6 +32,24 @@ def printcheckboard(values):
                 stddraw.filledCircle(j + .5, i + .5, .25)
                 z+=1
     stddraw.show()
+
+def isvalid(move):
+
+    if((move[0] == (move[2]-1)) and move[0] != H):
+        if(board[fromindex] == 1):
+            if(board[toindex] == 0):
+                board[fromindex] = 0
+                board[toindex] = 1
+            else: print("Please select a space that is not occupied by another piece.")
+        else: print("Please select a piece that is yours. Your pieces are on the bottom.")
+    elif((move[0] == (move[2]-2)) and (move[0] != H) and (move[0] != G)):
+        if(board[fromindex] == 1):
+            difference = 0
+            if(board[toindex] == 0):
+                if(
+                else(
+
+        else: print("Please select a piece that is yours. Your pieces are on the bottom")
   
 
 def loopRecv(csoc, size):
