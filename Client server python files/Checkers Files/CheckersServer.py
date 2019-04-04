@@ -54,69 +54,69 @@ def Roomhandler(sock1, sock2, mask):
             move = (loopRecv(sock1,4)).decode()
             if(move[0] == 'A'):
                 mult = 0
-            else if(move[0] == 'B'):
+            elif (move[0] == 'B'):
                 mult = 1
-            else if(move[0] == 'C'):
+            elif(move[0] == 'C'):
                 mult = 2
-            else if(move[0] == 'D'):
+            elif(move[0] == 'D'):
                 mult = 3
-            else if(move[0] == 'E'):
+            elif(move[0] == 'E'):
                 mult = 4
-            else if(move[0] == 'F'):
+            elif(move[0] == 'F'):
                 mult = 5
-            else if(move[0] == 'G'):
+            elif(move[0] == 'G'):
                 mult = 6
-            else if(move[0] == 'H'):
+            elif(move[0] == 'H'):
                 mult = 7
             if(move[1] == '1'):
                 base = 0
-            else if(move[1] == '2'):
+            elif(move[1] == '2'):
                 base = 0
-            else if(move[1] == '3'):
+            elif(move[1] == '3'):
                 base = 1
-            else if(move[1] == '4'):
+            elif(move[1] == '4'):
                 base = 1
-            else if(move[1] == '5'):
+            elif(move[1] == '5'):
                 base = 2
-            else if(move[1] == '6'):
+            elif(move[1] == '6'):
                 base = 2
-            else if(move[1] == '7'):
+            elif(move[1] == '7'):
                 base = 3
-            else if(move[1] == '8'):
+            elif(move[1] == '8'):
                 base = 3
             fromindex = base + (mult*4)
 
             if(move[2] == 'A'):
                 mult = 0
-            else if(move[2] == 'B'):
+            elif(move[2] == 'B'):
                 mult = 1
-            else if(move[2] == 'C'):
+            elif(move[2] == 'C'):
                 mult = 2
-            else if(move[2] == 'D'):
+            elif(move[2] == 'D'):
                 mult = 3
-            else if(move[2] == 'E'):
+            elif(move[2] == 'E'):
                 mult = 4
-            else if(move[2] == 'F'):
+            elif(move[2] == 'F'):
                 mult = 5
-            else if(move[2] == 'G'):
+            elif(move[2] == 'G'):
                 mult = 6
-            else if(move[2] == 'H'):
+            elif(move[2] == 'H'):
                 mult = 7
             if(move[3] == '1'):
                 base = 0
-            else if(move[3] == '2'):
+            elif(move[3] == '2'):
                 base = 0
-            else if(move[3] == '3'):
+            elif(move[3] == '3'):
                 base = 1
-            else if(move[3] == '4'):
+            elif(move[3] == '4'):
                 base = 1
-            else if(move[3] == '5'):
+            elif(move[3] == '5'):
                 base = 2
-            else if(move[3] == '6'):
+            elif(move[3] == '6'):
                 base = 2
-            else if(move[3] == '7'):
+            elif(move[3] == '7'):
                 base = 3
-            else if(move[3] == '8'):
+            elif(move[3] == '8'):
                 base = 3
             toindex = base + (mult*4)
             
@@ -129,69 +129,69 @@ def Roomhandler(sock1, sock2, mask):
             move = (loopRecv(sock1,4)).decode()
             if(move[0] == 'A'):
                 mult = 0
-            else if(move[0] == 'B'):
+            elif(move[0] == 'B'):
                 mult = 1
-            else if(move[0] == 'C'):
+            elif(move[0] == 'C'):
                 mult = 2
-            else if(move[0] == 'D'):
+            elif(move[0] == 'D'):
                 mult = 3
-            else if(move[0] == 'E'):
+            elif(move[0] == 'E'):
                 mult = 4
-            else if(move[0] == 'F'):
+            elif(move[0] == 'F'):
                 mult = 5
-            else if(move[0] == 'G'):
+            elif(move[0] == 'G'):
                 mult = 6
-            else if(move[0] == 'H'):
+            elif(move[0] == 'H'):
                 mult = 7
             if(move[1] == '1'):
                 base = 0
-            else if(move[1] == '2'):
+            elif(move[1] == '2'):
                 base = 0
-            else if(move[1] == '3'):
+            elif(move[1] == '3'):
                 base = 1
-            else if(move[1] == '4'):
+            elif(move[1] == '4'):
                 base = 1
-            else if(move[1] == '5'):
+            elif(move[1] == '5'):
                 base = 2
-            else if(move[1] == '6'):
+            elif(move[1] == '6'):
                 base = 2
-            else if(move[1] == '7'):
+            elif(move[1] == '7'):
                 base = 3
-            else if(move[1] == '8'):
+            elif(move[1] == '8'):
                 base = 3
             fromindex = base + (mult*4)
 
             if(move[2] == 'A'):
                 mult = 0
-            else if(move[2] == 'B'):
+            elif(move[2] == 'B'):
                 mult = 1
-            else if(move[2] == 'C'):
+            elif(move[2] == 'C'):
                 mult = 2
-            else if(move[2] == 'D'):
+            elif(move[2] == 'D'):
                 mult = 3
-            else if(move[2] == 'E'):
+            elif(move[2] == 'E'):
                 mult = 4
-            else if(move[2] == 'F'):
+            elif(move[2] == 'F'):
                 mult = 5
-            else if(move[2] == 'G'):
+            elif(move[2] == 'G'):
                 mult = 6
-            else if(move[2] == 'H'):
+            elif(move[2] == 'H'):
                 mult = 7
             if(move[3] == '1'):
                 base = 0
-            else if(move[3] == '2'):
+            elif(move[3] == '2'):
                 base = 0
-            else if(move[3] == '3'):
+            elif(move[3] == '3'):
                 base = 1
-            else if(move[3] == '4'):
+            elif(move[3] == '4'):
                 base = 1
-            else if(move[3] == '5'):
+            elif(move[3] == '5'):
                 base = 2
-            else if(move[3] == '6'):
+            elif(move[3] == '6'):
                 base = 2
-            else if(move[3] == '7'):
+            elif(move[3] == '7'):
                 base = 3
-            else if(move[3] == '8'):
+            elif(move[3] == '8'):
                 base = 3
             toindex = base + (mult*4)            
     
