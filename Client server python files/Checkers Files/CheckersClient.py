@@ -14,6 +14,8 @@ def printcheckboard(values):
     stddraw.setXscale(0, n)
     stddraw.setYscale(0, n)
     z = 0 ##z is the spot in values string
+    rows = 'ABCDEFGH'
+    cols = '12345678'
         
     for i in range(n):
         for j in range(n): 
@@ -55,7 +57,10 @@ def Application(csoc):
     # driver code
     
     turn = loopRecv(csoc,1).decode()
+    print(turn)
     board = loopRecv(csoc,32).decode()
+    
+    print(board)
     printcheckboard(board) 
     
     

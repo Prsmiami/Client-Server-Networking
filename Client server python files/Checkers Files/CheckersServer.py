@@ -41,16 +41,17 @@ def Roomhandler(sock1, sock2, mask):
     endgame = 0
     mult = 0
     base = 0
-    fromindex, toindex = 0
+    fromindex = 0
+    toindex = 0
     move = ""
     board = [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2]
     while(endgame != 1):
         if(turn == 1):
-            sock1.sendall(("T").encode("utf-8"))
-            sock2.sendall(("N").encode("utf-8"))
+            sock1.sendall(('T').encode("utf-8"))
+            sock2.sendall(('N').encode("utf-8"))
             for e in board:
-                sock1.sendall((e).encode("utf-8"))
-                sock2.sendall((e).encode("utf-8"))
+                sock1.sendall(str(e).encode("utf-8"))
+                sock2.sendall(str(e).encode("utf-8"))
             move = (loopRecv(sock1,4)).decode()
             if(move[0] == 'A'):
                 mult = 0
@@ -126,14 +127,14 @@ def Roomhandler(sock1, sock2, mask):
                         board[fromindex] = 0
                         board[toindex] = 1
                     else: print("Please select a space that is not occupied by another piece.")
-                else: print("Please select a piece that is yours. Your pieces are on the bottom.")
-            elif((move[0] == (move[2]-2)) and (move[0] != H) and (move[0] != G)):
-                if(board[fromindex] == 1):
-                    if(board[toindex] == 0):
-                        if(
-                        else(
-
-                else: print("Please select a piece that is yours. Your pieces are on the bottom")
+##                else: print("Please select a piece that is yours. Your pieces are on the bottom.")
+##            elif((move[0] == (move[2]-2)) and (move[0] != H) and (move[0] != G)):
+##                if(board[fromindex] == 1):
+##                    if(board[toindex] == 0):
+##                        if(
+##                        else(
+##
+##                else: print("Please select a piece that is yours. Your pieces are on the bottom")
                 
                 
 
