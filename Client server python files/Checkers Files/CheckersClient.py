@@ -21,13 +21,13 @@ def printcheckboard(values):
                 stddraw.setPenColor(stddraw.BLACK)
             else:
                 stddraw.setPenColor(stddraw.RED)
-            stddraw.filledSquare(i + .5, j + .5, .5)
-            if(stddraw.getPenColor() == 'BLACK'):
+            stddraw.filledSquare(j + .5, i + .5, .5)
+            if((i + j) % 2) == 0:
                 if(values[z] == '1'):           ##player 1
                     stddraw.setPenColor(stddraw.BLUE)
-                elif(values[z] == '2'):      ##player 2
+                elif(values[z] == '2'):         ##player 2
                     stddraw.setPenColor(stddraw.WHITE)
-                stddraw.filledCircle(i + .5, j + .5, .25)
+                stddraw.filledCircle(j + .5, i + .5, .25)
                 z+=1
     stddraw.show()
   
@@ -48,12 +48,15 @@ def Application(csoc):
     ##Recieve board
     ##Recieve turn code/endgame
     ##Input move or wait for recieve board
-    ##
-    #values="12000000000000000000000000000000"
-    values="11111111111100000000222222222222"
+
+    ##for untouched board in start state vvv
+    startBoard='11111111111100000000222222222222'
     print(loopRecv(csoc,8).decode())
-    # driver code 
-    printcheckboard() 
+    # driver code
+    
+    turn = loopRecv(csoc,1).decode()
+    board = loopRecv(csoc,32).decode()
+    printcheckboard(board) 
     
     
 
