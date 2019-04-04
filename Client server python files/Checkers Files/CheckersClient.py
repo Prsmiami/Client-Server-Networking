@@ -63,19 +63,32 @@ def Application(csoc):
     turn = loopRecv(csoc,1).decode()
     print(turn)
     board = loopRecv(csoc,32).decode()
-    
     print(board)
     printcheckboard(board)
+    
+    #while !endgame for loops below
 
+    #if Turn, send 4 char move to server
     if(turn=='T'):
+        label: inputmove
         move = input()
         while (len(move) != 4):
             print("Please enter a valid 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
             move = input()
         #sends a move of valid size to server to check if move is valid
         commsoc.sendall((move).encode("utf-8"));
-    isValid = loopRecv(csoc,1).decode()
-
+        #receive message from server regarding sent move, V valid I invalid
+        isValid = loopRecv(csoc,1).decode()
+        if(isValid == 'I'):
+            goto inputmove
+        elif(isValid == 'V')
+            break;
+    turn = loopRecv(csoc,1).decode()
+    print(turn)
+    board = loopRecv(csoc,32).decode()
+    print(board)
+    printcheckboard(board)
+    
             
 if __name__ == "__main__":
     # create the socket
