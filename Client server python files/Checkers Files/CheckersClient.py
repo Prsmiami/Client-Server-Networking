@@ -47,9 +47,22 @@ def loopRecv(csoc, size):
         size -= rsize
     return data
 
+def inputmove():
+        while(flag==0):
+            move = input()
+            while (len(move) != 4):
+                print("Please enter a valid 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
+                move = input()
+            #sends a move of valid size to server to check if move is valid
+            print("sending correct sized move")
+            commsoc.sendall((move).encode("utf-8"));
+            isValid = loopRecv(csoc,1).decode()
+            if(isValid == 'I'):
+                flag=0
+            elif(isValid == 'V'):
+                flag=1
 
 def Application(csoc):
-
 
     ##Recieve board
     ##Recieve turn code/endgame
@@ -58,8 +71,6 @@ def Application(csoc):
     ##for untouched board in start state vvv
     startBoard='11111111111100000000222222222222'
     print(loopRecv(csoc,8).decode())
-    # driver code
-    
     turn = loopRecv(csoc,1).decode()
     print(turn)
     board = loopRecv(csoc,32).decode()
@@ -70,19 +81,7 @@ def Application(csoc):
 
     #if Turn, send 4 char move to server
     if(turn=='T'):
-        label: inputmove
-        move = input()
-        while (len(move) != 4):
-            print("Please enter a valid 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
-            move = input()
-        #sends a move of valid size to server to check if move is valid
-        commsoc.sendall((move).encode("utf-8"));
-        #receive message from server regarding sent move, V valid I invalid
-        isValid = loopRecv(csoc,1).decode()
-        if(isValid == 'I'):
-            goto inputmove
-        elif(isValid == 'V')
-            break;
+        inputmove()
     turn = loopRecv(csoc,1).decode()
     print(turn)
     board = loopRecv(csoc,32).decode()
