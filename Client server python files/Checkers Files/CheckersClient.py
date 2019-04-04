@@ -68,12 +68,15 @@ def Application(csoc):
     
     print(board)
     printcheckboard(board)
+    isValid = 1;
 
     if(turn=='T')
         move = input()
-        while (len(move) != 4)
-            print("Please enter a 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
-    
+        while ((len(move) != 4) || !(isValid))
+            if(len(move) != 4)
+                print("Please enter a valid 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
+            if(!(isValid))
+                print("Please enter a valid move, your piece cant move there!"
     
 
 
