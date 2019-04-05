@@ -68,7 +68,7 @@ def inputDoubleJump(csoc):
             print("you jumped a piece! good job")
             flag=1
 
-def inbounds(move, board):
+def inbounds(move):
     rows="ABCDEFGH"
     cols="12345678"
     startindex=0
@@ -91,38 +91,39 @@ def inbounds(move, board):
         if(move[3] == cols[i]):
             destindex += (i)
             m3 = True
-    startindex /= 2
-    destindex /= 2
     total = m0 and m1 and m2 and m3
-    moveValid = True    #hardcode until function works, for player1
-    jumpValid = True
-    if (board[destindex]=='0'):
-        if(startindex-destindex <= -7):  #player 1 jump
-            valid = total and jumpValid(startindex,destindex,board)
-        elif((startindex-destindex > -7) and (startindex-destindex < 0):   #player 1 move normal
-            valid = total and moveValid(startindex,destindex,board)
-        elif((startindex-destindex > 0) and (startindex-destindex < 7):   #player 2 move normal
-            valid = total and moveValid(startindex,destindex,board)
-        elif(startindex-destindex >= 7):  #player 2 jump
-            valid = total and jumpValid(startindex,destindex,board)
-    else:
-        valid = False;
+    valid = total
+
+    
+##    print(startindex)   #started here
+##    print(destindex)    #requested to move here
+##    if(total):
+##        if(destindex==startindex+7):    #move up left
+##            if(board[destindex]=='1'):  #if player1
+##                valid=False
+##            elif(board[destindex]=='2') #if player2
+##                if(board[destindex+7]=='0'):    #spot open behind it
+##                    valid=True
+##                else:
+##                    valid=False
+##            elif(board[destindex]=='0')
+##                valid=True
+##        elif(destindex==startindex+9):  #move up right
+
     return valid
 
-def moveValid(startindex,destindex,board):
-    if(board[destindex]=='0'):
-        return True
-    return False
-
-def jumpValid(startindex,destindex,board):
-    if(board[startindex]=='1'):
-        if(board[(startindex+destindex / 2)]=='2'):
-            return True
-    elif(board[startindex]=='2'):
-        if(board[(startindex+destindex / 2)]=='1'):
-            return True
-    return False
-
+##def validmoves(move,board):
+##    movelist = []
+##    startpos = move[0,1]
+##    dest = move[2,3]
+##    rows="ABCDEFGH"
+##    cols="12345678"
+##    
+##
+##
+##
+##    
+##    return movelist
 
 def inputmove(csoc,board):
     flag=0
