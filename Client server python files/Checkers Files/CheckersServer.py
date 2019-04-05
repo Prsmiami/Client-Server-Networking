@@ -146,7 +146,7 @@ def Roomhandler(sock1, sock2, mask):
             toindex = base + (mult*4)               
 
 
-            if((move[0] == (move[2]-1)) and move[0] != H):
+            if((ord(move[0]) == (ord(move[2])-1)) and move[0] != 'H'):
                 if(board[fromindex] == 1):
                     if(board[toindex] == 0):
                         board[fromindex] = 0
@@ -158,7 +158,7 @@ def Roomhandler(sock1, sock2, mask):
                 else:
                     print("Please select a piece that is yours. Your pieces are on the bottom.")
                     sock1.sendall(("I").encode("utf-8"))
-            elif((move[0] == (move[2]-2)) and (move[0] != H) and (move[0] != G)):
+            elif((ord(move[0]) == (ord(move[2])-2)) and (move[0] != 'H') and (move[0] != 'G')):
                 if(board[fromindex] == 1):
                     difference = toindex-fromindex
                     if(difference == 10):
@@ -256,22 +256,39 @@ def Roomhandler(sock1, sock2, mask):
                 base = 3
             toindex = base + (mult*4)
 
-##        if((move[0] == (move[2]-1)) and move[0] != H):
-##            if(board[fromindex] == 1):
-##                if(board[toindex] == 0):
-##                    board[fromindex] = 0
-##                    board[toindex] = 1
-##                else: print("Please select a space that is not occupied by another piece.")
-##            else: print("Please select a piece that is yours. Your pieces are on the bottom.")
-##        elif((move[0] == (move[2]-2)) and (move[0] != H) and (move[0] != G)):
-##            if(board[fromindex] == 1):
-##                difference = 0
-##                
-##                if(board[toindex] == 0):
-##                    if(
-##                    else(
-##
-##            else: print("Please select a piece that is yours. Your pieces are on the bottom")
+            if((ord(move[0]) == (ord(move[2])+1)) and move[0] != 'A'):
+                if(board[fromindex] == 2):
+                    if(board[toindex] == 0):
+                        board[fromindex] = 0
+                        board[toindex] = 2
+                        sock1.sendall(("V").encode("utf-8"))
+                    else:
+                        print("Please select a space that is not occupied by another piece.")
+                        sock1.sendall(("I").encode("utf-8"))
+                else:
+                    print("Please select a piece that is yours. Your pieces are on the bottom.")
+                    sock1.sendall(("I").encode("utf-8"))
+            elif((ord(move[0]) == (ord(move[2])+2)) and (move[0] != 'A') and (move[0] != 'B')):
+                if(board[fromindex] == 2):
+                    difference = toindex-fromindex
+                    if(difference == -10):
+                        if(board[fromindex+4] == 1):
+                            board[fromindex+4] = 0
+                            board[fromindex] = 0
+                            board[toindex] = 2
+                            sock1.sendall(("V").encode("utf-8"))
+                    elif(difference == -7):
+                        if(board[fromindex+3] == 1):
+                            board[fromindex+4] = 0
+                            board[fromindex] = 0
+                            board[toindex] = 2
+                            sock1.sendall(("V").encode("utf-8"))
+                    else:
+                        print("Invalid move")
+                        sock1.sendall(("I").encode("utf-8"))
+                else:
+                    print("Please select a piece that is yours. Your pieces are on the bottom")
+                    sock1.sendall(("I").encode("utf-8"))
         
     
 
