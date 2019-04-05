@@ -58,6 +58,7 @@ def Roomhandler(sock1, sock2, mask):
     sock1.sendall(("socket 1").encode("utf-8"))
     sock2.sendall(("socket 2").encode("utf-8"))
 ##  turn 1 is for socket 1
+    endgame = 0
     goagain1 = 0
     goagain2 = 0
     turn = 1
@@ -192,8 +193,8 @@ def Roomhandler(sock1, sock2, mask):
             sock2.sendall(("T").encode("utf-8"))
             sock1.sendall(("N").encode("utf-8"))
             for e in board:
-                sock1.sendall((e).encode("utf-8"))
-                sock2.sendall((e).encode("utf-8"))
+                sock1.sendall(str(e).encode("utf-8"))
+                sock2.sendall(str(e).encode("utf-8"))
             move = (loopRecv(sock1,4)).decode()
             if(move[0] == 'A'):
                 mult = 0
@@ -299,7 +300,8 @@ def Roomhandler(sock1, sock2, mask):
             if(goagain1 == 0):
                 turn = 1
 
-        endgame = endgamecheck(board)
+##        endgame = endgamecheck(board)
+##        print(endgame)
 
     if(endgame == 1):   
         sock1.sendall(("W").encode("utf-8"))
