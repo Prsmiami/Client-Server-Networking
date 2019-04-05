@@ -34,6 +34,16 @@ def printcheckboard(values):
                 elif(values[z] == '2'):         ##player 2
                     stddraw.setPenColor(stddraw.WHITE)
                     stddraw.filledCircle(j + .5, i + .5, .25)
+                elif(values[z] == '3'):         ##player 1 king
+                    stddraw.setPenColor(stddraw.WHITE)
+                    stddraw.filledCircle(j + .5, i + .5, .25)
+                    stddraw.setPenColor(stddraw.BLACK)
+                    stddraw.text(j+.5, i+.5, "K")
+                elif(values[z] == '4'):         ##player 2 king
+                    stddraw.setPenColor(stddraw.WHITE)
+                    stddraw.filledCircle(j + .5, i + .5, .25)
+                    stddraw.setPenColor(stddraw.BLACK)
+                    stddraw.text(j+.5, i+.5, "K")
                 z+=1
     stddraw.show(500)
     
@@ -46,27 +56,6 @@ def loopRecv(csoc, size):
         mv = mv[rsize:]
         size -= rsize
     return data
-
-def inputDoubleJump(csoc):
-    flag=0
-    while(flag==0):
-        move = input()
-        while (len(move) != 4):
-            print("Please enter a valid 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
-            move = input()
-        #sends a move of valid size to server to check if move is valid
-        print("sending correct sized move to check for validity")
-        commsoc.sendall((move).encode("utf-8"));
-        isValid = loopRecv(csoc,1).decode()
-        if(isValid == 'I'):
-            print("move invalid, terrible job")
-            flag=0
-        elif(isValid == 'V'):
-            print("move valid! good job")
-            flag=1
-        elif(isValid == 'A'):   #you made a jump, maybe go again
-            print("you jumped a piece! good job")
-            flag=1
 
 def inbounds(move):
     rows="ABCDEFGH"
@@ -93,37 +82,30 @@ def inbounds(move):
             m3 = True
     total = m0 and m1 and m2 and m3
     valid = total
-
-    
-##    print(startindex)   #started here
-##    print(destindex)    #requested to move here
-##    if(total):
-##        if(destindex==startindex+7):    #move up left
-##            if(board[destindex]=='1'):  #if player1
-##                valid=False
-##            elif(board[destindex]=='2') #if player2
-##                if(board[destindex+7]=='0'):    #spot open behind it
-##                    valid=True
-##                else:
-##                    valid=False
-##            elif(board[destindex]=='0')
-##                valid=True
-##        elif(destindex==startindex+9):  #move up right
-
     return valid
 
-##def validmoves(move,board):
-##    movelist = []
-##    startpos = move[0,1]
-##    dest = move[2,3]
-##    rows="ABCDEFGH"
-##    cols="12345678"
-##    
-##
-##
-##
-##    
-##    return movelist
+def inputDoubleJump(csoc,startpoint):
+    flag=0
+    while(flag==0):
+        print("You can make another jump with the same piece, what do you request as the new destination(only type the destination)?")
+        move = input()
+        while (len(move) != 2 and abs (ord(startpoint[0]) - ord(move[0])) ==2):
+            print("Please enter a valid 2 character jump move in the form of \n[nextrow][nextcolumn] \nfor example: D2")
+            move = input()
+        #sends a move of valid size to server to check if move is valid
+        print("sending correct sized move to check for validity")
+        fullmove = startpoint + move
+        commsoc.sendall((fullmove).encode("utf-8"));
+        isValid = loopRecv(csoc,1).decode()
+        if(isValid == 'I'):
+            print("move invalid, terrible job")
+            flag=0
+        elif(isValid == 'V'):
+            print("move valid! good job")
+            flag=1
+        elif(isValid == 'A'):   #you made a jump, maybe go again
+            print("you jumped a piece! good job")
+            flag=1
 
 def inputmove(csoc,board):
     flag=0
@@ -154,7 +136,9 @@ def inputmove(csoc,board):
         elif(isValid == 'A'):
             print("you're in position to make a double jump!!!")
             print("do you want to make another move? yes/no")
-            inputDoubleJump(csoc)
+            confirmation = input()
+            if( confirmation == "y" or confirmation == "Y" or confirmation == "yes" or confirmation == "Yes"):
+                inputDoubleJump(csoc,move[2,3])
             flag=1
         
 
