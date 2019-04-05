@@ -35,20 +35,18 @@ def doAccept(thesel, thesock, mask):
 def endgamecheck(board):
     p1flag = 0
     p2flag = 0
-    for e in board:
-        if(board[e] == 1):
+    i = 28
+    while(i<32):
+        if(board[i] == 1):
             p1flag = 1
-    for e in board:
-        if(board[e] == 3):
-            p1flag = 1
-    for e in board:
-        if(board[e] == 2):
+        i += 1
+    i = 0
+    while(i<4):
+        if(board[i] == 2):
             p2flag = 1
-    for e in board:
-        if(board[e] == 4):
-            p2flag = 1
-    if(p1flag == 0): return(1)
-    if(p2flag == 0): return(2)
+        i += 1
+    if(p1flag == 1): return(1)
+    if(p2flag == 1): return(2)
     return(0)
 
 def Roomhandler(sock1, sock2, mask):
@@ -72,13 +70,14 @@ def Roomhandler(sock1, sock2, mask):
     board = [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2]
     while(endgame == 0):
         if(turn == 1):
+            if(goagain1 == 0):
+                sock1.sendall(('T').encode("utf-8"))
+                sock2.sendall(('N').encode("utf-8"))
+                for e in board:
+                    sock1.sendall(str(e).encode("utf-8"))
+                    sock2.sendall(str(e).encode("utf-8"))
+                print("about to send board before CLIENT1(one) move")
             goagain1 = 0
-            sock1.sendall(('T').encode("utf-8"))
-            sock2.sendall(('N').encode("utf-8"))
-            for e in board:
-                sock1.sendall(str(e).encode("utf-8"))
-                sock2.sendall(str(e).encode("utf-8"))
-            print("about to send board before CLIENT1(one) move")
             move = (loopRecv(sock1,4)).decode()
             print(move)
             print("Sent board after CLIENT1(one) move\n")
@@ -231,16 +230,17 @@ def Roomhandler(sock1, sock2, mask):
                 
         #BEGIN TURN CLIENT 2
         elif(turn == 2):
-            goagain2 = 0
-            sock2.sendall(("T").encode("utf-8"))
-            sock1.sendall(("N").encode("utf-8"))
-            for e in board:
-                sock1.sendall(str(e).encode("utf-8"))
-                sock2.sendall(str(e).encode("utf-8"))
-            print("about to send board before CLIENT2 move")
+            if(goagain2 == 0):
+                sock2.sendall(("T").encode("utf-8"))
+                sock1.sendall(("N").encode("utf-8"))
+                for e in board:
+                    sock1.sendall(str(e).encode("utf-8"))
+                    sock2.sendall(str(e).encode("utf-8"))
+                print("about to send board before CLIENT2 move")
             move = (loopRecv(sock2,4)).decode()
             print(move)
             print("Sent board after CLIENT2(two) move\n")
+            goagain2 = 0
             if(move[0] == 'A'):
                 mult = 0
             elif(move[0] == 'B'):
@@ -375,8 +375,8 @@ def Roomhandler(sock1, sock2, mask):
             if(goagain2 == 0):
                 turn = 1
 
-##        endgame = endgamecheck(board)
-##        print(endgame)
+        endgame = endgamecheck(board)
+        print(endgame)
 
     if(endgame == 1):   
         sock1.sendall(("W").encode("utf-8"))
