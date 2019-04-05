@@ -58,6 +58,8 @@ def Roomhandler(sock1, sock2, mask):
     sock1.sendall(("socket 1").encode("utf-8"))
     sock2.sendall(("socket 2").encode("utf-8"))
 ##  turn 1 is for socket 1
+    goagain1 = 0
+    goagain2 = 0
     turn = 1
     endgame = 0
     mult = 0
@@ -67,8 +69,9 @@ def Roomhandler(sock1, sock2, mask):
     difference = 0
     move = ""
     board = [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2]
-    while(endgame != 1):
+    while(endgame == 0):
         if(turn == 1):
+            goagain1 = 0
             sock1.sendall(('T').encode("utf-8"))
             sock2.sendall(('N').encode("utf-8"))
             for e in board:
@@ -167,21 +170,25 @@ def Roomhandler(sock1, sock2, mask):
                             board[fromindex] = 0
                             board[toindex] = 1
                             sock1.sendall(("V").encode("utf-8"))
+                            goagain1 = 1
                     elif(difference == 7):
                         if(board[fromindex+3] == 2):
                             board[fromindex+4] = 0
                             board[fromindex] = 0
                             board[toindex] = 1
                             sock1.sendall(("V").encode("utf-8"))
+                            goagain1 = 1
                     else:
                         print("Invalid move")
                         sock1.sendall(("I").encode("utf-8"))
                 else:
                     print("Please select a piece that is yours. Your pieces are on the bottom")
                     sock1.sendall(("I").encode("utf-8"))
-
+            if(goagain1 == 0):
+                turn = 2
             
-        if(turn == 2):
+        elif(turn == 2):
+            goagain2 = 0
             sock2.sendall(("T").encode("utf-8"))
             sock1.sendall(("N").encode("utf-8"))
             for e in board:
@@ -289,7 +296,17 @@ def Roomhandler(sock1, sock2, mask):
                 else:
                     print("Please select a piece that is yours. Your pieces are on the bottom")
                     sock1.sendall(("I").encode("utf-8"))
-        
+            if(goagain1 == 0):
+                turn = 1
+
+        endgame = endgamecheck(board)
+
+    if(endgame == 1):   
+        sock1.sendall(("W").encode("utf-8"))
+        sock2.sendall(("L").encode("utf-8"))
+    if(endgame == 2):   
+        sock1.sendall(("L").encode("utf-8"))
+        sock2.sendall(("W").encode("utf-8"))
     
 
 def doRead(thesel, thesock, mask):
