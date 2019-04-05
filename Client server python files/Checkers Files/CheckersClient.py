@@ -47,6 +47,27 @@ def loopRecv(csoc, size):
         size -= rsize
     return data
 
+def inputDoubleJump(csoc):
+    flag=0
+    while(flag==0):
+        move = input()
+        while (len(move) != 4):
+            print("Please enter a valid 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
+            move = input()
+        #sends a move of valid size to server to check if move is valid
+        print("sending correct sized move to check for validity")
+        commsoc.sendall((move).encode("utf-8"));
+        isValid = loopRecv(csoc,1).decode()
+        if(isValid == 'I'):
+            print("move invalid, terrible job")
+            flag=0
+        elif(isValid == 'V'):
+            print("move valid! good job")
+            flag=1
+        elif(isValid == 'A'):   #you made a jump, maybe go again
+            print("you jumped a piece! good job")
+            flag=1
+
 def inputmove(csoc):
     flag=0
     while(flag==0):
@@ -63,6 +84,11 @@ def inputmove(csoc):
             flag=0
         elif(isValid == 'V'):
             print("move valid! good job")
+            flag=1
+        elif(isValid == 'A'):
+            print("you're in position to make a double jump!!!")
+            print("do you want to make another move? yes/no")
+            inputDoubleJump(csoc)
             flag=1
         
 
