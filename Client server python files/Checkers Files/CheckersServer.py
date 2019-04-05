@@ -78,9 +78,11 @@ def Roomhandler(sock1, sock2, mask):
             for e in board:
                 sock1.sendall(str(e).encode("utf-8"))
                 sock2.sendall(str(e).encode("utf-8"))
-            print("Sent board")
+            print("about to send board before CLIENT1(one) move")
             move = (loopRecv(sock1,4)).decode()
             print(move)
+            print("Sent board after CLIENT1(one) move\n")
+#0  #1  #3  #4  #5  #6  #7  #8
             if(move[0] == 'A'):
                 mult = 0
             elif (move[0] == 'B'):
@@ -187,7 +189,8 @@ def Roomhandler(sock1, sock2, mask):
                     sock1.sendall(("I").encode("utf-8"))
             if(goagain1 == 0):
                 turn = 2
-            
+#0  #1  #3  #4  #5  #6  #7  #8
+        #BEGIN TURN CLIENT 2
         elif(turn == 2):
             goagain2 = 0
             sock2.sendall(("T").encode("utf-8"))
@@ -195,7 +198,10 @@ def Roomhandler(sock1, sock2, mask):
             for e in board:
                 sock1.sendall(str(e).encode("utf-8"))
                 sock2.sendall(str(e).encode("utf-8"))
-            move = (loopRecv(sock1,4)).decode()
+            print("about to send board before CLIENT2 move")
+            move = (loopRecv(sock2,4)).decode()
+            print(move)
+            print("Sent board after CLIENT2(two) move\n")
             if(move[0] == 'A'):
                 mult = 0
             elif(move[0] == 'B'):
@@ -263,19 +269,19 @@ def Roomhandler(sock1, sock2, mask):
             elif(move[3] == '8'):
                 base = 3
             toindex = base + (mult*4)
-
+            print("1 works up to___________")
             if((ord(move[0]) == (ord(move[2])+1)) and move[0] != 'A'):
                 if(board[fromindex] == 2):
                     if(board[toindex] == 0):
                         board[fromindex] = 0
                         board[toindex] = 2
-                        sock1.sendall(("V").encode("utf-8"))
+                        sock2.sendall(("V").encode("utf-8"))
                     else:
                         print("Please select a space that is not occupied by another piece.")
-                        sock1.sendall(("I").encode("utf-8"))
+                        sock2.sendall(("I").encode("utf-8"))
                 else:
                     print("Please select a piece that is yours. Your pieces are on the bottom.")
-                    sock1.sendall(("I").encode("utf-8"))
+                    sock2.sendall(("I").encode("utf-8"))
             elif((ord(move[0]) == (ord(move[2])+2)) and (move[0] != 'A') and (move[0] != 'B')):
                 if(board[fromindex] == 2):
                     difference = toindex-fromindex
@@ -284,19 +290,20 @@ def Roomhandler(sock1, sock2, mask):
                             board[fromindex+4] = 0
                             board[fromindex] = 0
                             board[toindex] = 2
-                            sock1.sendall(("V").encode("utf-8"))
+                            sock2.sendall(("V").encode("utf-8"))
                     elif(difference == -7):
                         if(board[fromindex+3] == 1):
                             board[fromindex+4] = 0
                             board[fromindex] = 0
                             board[toindex] = 2
-                            sock1.sendall(("V").encode("utf-8"))
+                            sock2.sendall(("V").encode("utf-8"))
                     else:
                         print("Invalid move")
-                        sock1.sendall(("I").encode("utf-8"))
+                        sock2.sendall(("I").encode("utf-8"))
                 else:
                     print("Please select a piece that is yours. Your pieces are on the bottom")
-                    sock1.sendall(("I").encode("utf-8"))
+                    sock2.sendall(("I").encode("utf-8"))
+#0  #1  #3  #4  #5  #6  #7  #8
             if(goagain1 == 0):
                 turn = 1
 

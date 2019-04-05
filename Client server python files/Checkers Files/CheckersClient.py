@@ -28,7 +28,7 @@ def printcheckboard(values):
             location = rows[i] + cols[j]
             stddraw.text(j+.15, i+.1, location)
             if((i + j) % 2) == 0:
-                if(values[z] == '1'):           ##player 1
+                if(values[z] == '1'):           ##player 1 #or values[z] == '3'
                     stddraw.setPenColor(stddraw.BLUE)
                     stddraw.filledCircle(j + .5, i + .5, .25)
                 elif(values[z] == '2'):         ##player 2
@@ -78,7 +78,9 @@ def inputmove(csoc):
         #sends a move of valid size to server to check if move is valid
         print("sending correct sized move to check for validity")
         commsoc.sendall((move).encode("utf-8"));
+        print("move sent to server, now wait for server to respond...")
         isValid = loopRecv(csoc,1).decode()
+        print("server sent response ",isValid)
         if(isValid == 'I'):
             print("move invalid, terrible job")
             flag=0
