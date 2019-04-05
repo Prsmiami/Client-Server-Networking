@@ -409,6 +409,7 @@ def doRead(thesel, thesock, mask):
                 t1.start()
                 thesel.unregister(randomopponent)
                 thesel.unregister(thesock)
+                randomflag = 0
 
     ##code for specified room number
         if(data.decode() == 'C'):
@@ -428,6 +429,7 @@ def doRead(thesel, thesock, mask):
             if(deleteflag == 1):
                 followingptr.nextuser = tempptr.nextuser
                 del tempptr
+                deleteflag = 0
             else:
                 ##issue will be with this user being deleted at end of function
                 newuser = make_waitinguser(thesock,data)
