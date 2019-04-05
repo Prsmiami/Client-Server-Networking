@@ -68,12 +68,36 @@ def inputDoubleJump(csoc):
             print("you jumped a piece! good job")
             flag=1
 
+def inbounds(move):
+    rows="ABCDEFGH"
+    cols="12345678"
+    m0 = False
+    m1 = False
+    m2 = False
+    m3 = False
+    total = False
+    for i in rows:
+        if(move[0] == i):
+            m0 = True
+        if(move[2] == i):
+            m2 = True
+    for j in cols:
+        if(move[1] == j):
+            m1 = True
+        if(move[3] == j):
+            m3 = True
+    total = m0 and m1 and m2 and m3
+    return total
+
 def inputmove(csoc):
     flag=0
     while(flag==0):
         move = input()
-        while (len(move) != 4):
-            print("Please enter a valid 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
+        while ((len(move) != 4) or not(inbounds(move))):
+            if(len(move) != 4):
+                print("Please enter a valid 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
+            if(not(inbounds(move))):
+                print("Locations must be between rows A and H, and columns 1 and 8")
             move = input()
         #sends a move of valid size to server to check if move is valid
         print("sending correct sized move to check for validity")

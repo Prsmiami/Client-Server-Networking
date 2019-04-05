@@ -82,7 +82,7 @@ def Roomhandler(sock1, sock2, mask):
             move = (loopRecv(sock1,4)).decode()
             print(move)
             print("Sent board after CLIENT1(one) move\n")
-#0  #1  #3  #4  #5  #6  #7  #8
+#0  #1  #3  #4  #5  #6  #7  #8 this is to check indentation
             if(move[0] == 'A'):
                 mult = 0
             elif (move[0] == 'B'):
@@ -189,7 +189,7 @@ def Roomhandler(sock1, sock2, mask):
                     sock1.sendall(("I").encode("utf-8"))
             if(goagain1 == 0):
                 turn = 2
-#0  #1  #3  #4  #5  #6  #7  #8
+#0  #1  #3  #4  #5  #6  #7  #8 this is to check indentation
         #BEGIN TURN CLIENT 2
         elif(turn == 2):
             goagain2 = 0
@@ -269,7 +269,6 @@ def Roomhandler(sock1, sock2, mask):
             elif(move[3] == '8'):
                 base = 3
             toindex = base + (mult*4)
-            print("1 works up to___________")
             if((ord(move[0]) == (ord(move[2])+1)) and move[0] != 'A'):
                 if(board[fromindex] == 2):
                     if(board[toindex] == 0):
@@ -303,7 +302,6 @@ def Roomhandler(sock1, sock2, mask):
                 else:
                     print("Please select a piece that is yours. Your pieces are on the bottom")
                     sock2.sendall(("I").encode("utf-8"))
-#0  #1  #3  #4  #5  #6  #7  #8
             if(goagain1 == 0):
                 turn = 1
 
