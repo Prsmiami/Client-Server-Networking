@@ -47,7 +47,7 @@ def loopRecv(csoc, size):
         size -= rsize
     return data
 
-def inputmove():
+def inputmove(csoc):
         while(flag==0):
             move = input()
             while (len(move) != 4):
@@ -55,7 +55,7 @@ def inputmove():
                 move = input()
             #sends a move of valid size to server to check if move is valid
             print("sending correct sized move")
-            commsoc.sendall((move).encode("utf-8"));
+            csoc.sendall((move).encode("utf-8"))
             isValid = loopRecv(csoc,1).decode()
             if(isValid == 'I'):
                 flag=0
@@ -83,7 +83,7 @@ def Application(csoc):
 
     
     if(turn=='T'):          #if Turn, send 4 char move to server
-        inputmove()
+        inputmove(csoc)
         
     turn = loopRecv(csoc,1).decode()
     print(turn)
