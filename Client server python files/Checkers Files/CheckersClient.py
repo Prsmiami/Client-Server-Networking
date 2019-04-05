@@ -84,19 +84,22 @@ def inbounds(move):
     valid = total
     return valid
 
-def inputDoubleJump(csoc,startpoint):
+def inputDoubleJump(csoc,oldmove):
     flag=0
     while(flag==0):
         print("You can make another jump with the same piece, what do you request as the new destination(only type the destination)?")
         move = input()
-        while (len(move) != 2 and abs (ord(startpoint[0]) - ord(move[0])) ==2):
+        while (len(move) != 2 and abs (ord(oldmove[2]) - ord(move[0])) ==2):
             print("Please enter a valid 2 character jump move in the form of \n[nextrow][nextcolumn] \nfor example: D2")
             move = input()
         #sends a move of valid size to server to check if move is valid
         print("sending correct sized move to check for validity")
-        fullmove = startpoint + move
+        fullmove = oldmove[2] + oldmove[3] + move
+        print(fullmove)
         commsoc.sendall((fullmove).encode("utf-8"));
+        print("move2 sent to server, now wait for server to respond...")
         isValid = loopRecv(csoc,1).decode()
+        print("server sent back for isValid  ",isValid)
         if(isValid == 'I'):
             print("move invalid, terrible job")
             flag=0
@@ -135,10 +138,15 @@ def inputmove(csoc,board):
             flag=1
         elif(isValid == 'A'):
             print("you're in position to make a double jump!!!")
+            turn = loopRecv(csoc,1).decode()
+            print(turn)
+            board = loopRecv(csoc,32).decode()
+            printcheckboard(board)
             print("do you want to make another move? yes/no")
             confirmation = input()
             if( confirmation == "y" or confirmation == "Y" or confirmation == "yes" or confirmation == "Yes"):
-                inputDoubleJump(csoc,move[2,3])
+                
+                inputDoubleJump(csoc,move)
             flag=1
         
 

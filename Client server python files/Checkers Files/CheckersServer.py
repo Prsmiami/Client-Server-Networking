@@ -153,6 +153,7 @@ def Roomhandler(sock1, sock2, mask):
 
 
             if((ord(move[0]) == (ord(move[2])-1)) and move[0] != 'H'):
+                print("MOVE debug ",board[fromindex])
                 if(board[fromindex] == 1):
                     if(board[toindex] == 0):
                         board[fromindex] = 0
@@ -167,41 +168,51 @@ def Roomhandler(sock1, sock2, mask):
                     sock1.sendall(("I").encode("utf-8"))
                     goagain1=1
             elif((ord(move[0]) == (ord(move[2])-2)) and (move[0] != 'H') and (move[0] != 'G')):
+                print("JUMP debug ",board[fromindex])
+                print(fromindex,"    ",board[fromindex])
+                print("difference =   ",toindex-fromindex)
+                print("toindex  =   ",toindex)
                 if(board[fromindex] == 1):
                     difference = toindex-fromindex
-                    if(difference == 9):
-                        if(board[fromindex+5] == 2):
-                            board[fromindex+5] = 0
-                            board[fromindex] = 0
-                            board[toindex] = 1
-                        if(toindex%4 == 0):
-                            if(board[toindex+9] == 0 and board[toindex+5] == 2):
-                                sock1.sendall(("A").encode("utf-8"))
-                                goagain1 = 1
-                        elif(toindex%4 == 3):
-                            if(board[toindex+7] == 0 and board[toindex+4] == 2):
-                                sock1.sendall(("A").encode("utf-8"))
-                                goagain1 = 1
-                        elif((board[toindex+9] == 0 and board[toindex+5] == 2) or (board[toindex+7] == 0 and board[toindex+4] == 2)):
-                            sock1.sendall(("A").encode("utf-8"))
-                            goagain1 = 1
-                        else: sock1.sendall(("V").encode("utf-8"))
-                    elif(difference == 7):
+                    print("DEBUG ",difference)  #
+                    if(difference == 9): #UP AND RIGHT
                         if(board[fromindex+4] == 2):
                             board[fromindex+4] = 0
                             board[fromindex] = 0
                             board[toindex] = 1
-                        if(toindex%4 == 0):
-                            if(board[toindex+9] == 0 and board[toindex+5] == 2):
+                        if(toindex<24):
+                            if(toindex%4 == 0):
+                                if(board[toindex+9] == 0 and board[toindex+4] == 2):
+                                    sock1.sendall(("A").encode("utf-8"))
+                                    goagain1 = 1
+                            elif(toindex%4 == 3):
+                                print("out of bounds comes up with ",toindex+7)
+                                if(board[toindex+7] == 0 and board[toindex+3] == 2):
+                                    sock1.sendall(("A").encode("utf-8"))
+                                    goagain1 = 1
+                            elif((board[toindex+9] == 0 and board[toindex+4] == 2) or (board[toindex+7] == 0 and board[toindex+3] == 2)):
                                 sock1.sendall(("A").encode("utf-8"))
                                 goagain1 = 1
-                        elif(toindex%4 == 3):
-                            if(board[toindex+7] == 0 and board[toindex+4] == 2):
+                            else: sock1.sendall(("V").encode("utf-8"))
+                        else: sock1.sendall(("V").encode("utf-8"))
+                    elif(difference == 7): #UP AND LEFT
+                        if(board[fromindex+3] == 2):
+                            board[fromindex+3] = 0
+                            board[fromindex] = 0
+                            board[toindex] = 1
+                        if(toindex<24):
+                            if(toindex%4 == 0):
+                                if(board[toindex+9] == 0 and board[toindex+4] == 2):
+                                    sock1.sendall(("A").encode("utf-8"))
+                                    goagain1 = 1
+                            elif(toindex%4 == 3):
+                                if(board[toindex+7] == 0 and board[toindex+3] == 2):
+                                    sock1.sendall(("A").encode("utf-8"))
+                                    goagain1 = 1
+                            elif((board[toindex+9] == 0 and board[toindex+4] == 2) or (board[toindex+7] == 0 and board[toindex+3] == 2)):
                                 sock1.sendall(("A").encode("utf-8"))
                                 goagain1 = 1
-                        elif((board[toindex+9] == 0 and board[toindex+5] == 2) or (board[toindex+7] == 0 and board[toindex+4] == 2)):
-                            sock1.sendall(("A").encode("utf-8"))
-                            goagain1 = 1
+                            else: sock1.sendall(("V").encode("utf-8"))
                         else: sock1.sendall(("V").encode("utf-8"))
                     else:
                         print("Invalid move")
@@ -211,6 +222,7 @@ def Roomhandler(sock1, sock2, mask):
                     print("Please select a piece that is yours. Your pieces are on the bottom")
                     sock1.sendall(("I").encode("utf-8"))
                     goagain1=1
+            print("after move/jump loops")
             if(goagain1 == 0):
                 turn = 2
 #0  #1  #3  #4  #5  #6  #7  #8 this is to check indentation
@@ -314,39 +326,43 @@ def Roomhandler(sock1, sock2, mask):
             elif((ord(move[0]) == (ord(move[2])+2)) and (move[0] != 'A') and (move[0] != 'B')):
                 if(board[fromindex] == 2):
                     difference = toindex-fromindex
-                    if(difference == -9):
-                        if(board[fromindex-5] == 1):
-                            board[fromindex-5] = 0
-                            board[fromindex] = 0
-                            board[toindex] = 2
-                        if(toindex%4 == 3):
-                            if(board[toindex-9] == 0 and board[toindex-5] == 1):
-                                sock2.sendall(("A").encode("utf-8"))
-                                goagain2 = 1
-                        elif(toindex%4 == 0):
-                            if(board[toindex-7] == 0 and board[toindex-4] == 1):
-                                sock2.sendall(("A").encode("utf-8"))
-                                goagain2 = 1
-                        elif((board[toindex-9] == 0 and board[toindex-5] == 1) or (board[toindex-7] == 0 and board[toindex-4] == 1)):
-                            sock2.sendall(("A").encode("utf-8"))
-                            goagain2 = 1
-                        else: sock2.sendall(("V").encode("utf-8"))
-                    elif(difference == -7):
+                    if(difference == -9): #DOWN AND LEFT
                         if(board[fromindex-4] == 1):
                             board[fromindex-4] = 0
                             board[fromindex] = 0
                             board[toindex] = 2
-                        if(toindex%4 == 0):
-                            if(board[toindex-7] == 0 and board[toindex-4] == 1):
+                        if(toindex>7):
+                            if(toindex%4 == 3):
+                                if(board[toindex-9] == 0 and board[toindex-4] == 1):
+                                    sock2.sendall(("A").encode("utf-8"))
+                                    goagain2 = 1
+                            elif(toindex%4 == 0):
+                                if(board[toindex-7] == 0 and board[toindex-3] == 1):
+                                    sock2.sendall(("A").encode("utf-8"))
+                                    goagain2 = 1
+                            elif((board[toindex-9] == 0 and board[toindex-4] == 1) or (board[toindex-7] == 0 and board[toindex-3] == 1)):
                                 sock2.sendall(("A").encode("utf-8"))
                                 goagain2 = 1
-                        elif(toindex%4 == 3):
-                            if(board[toindex-9] == 0 and board[toindex-5] == 1):
+                            else: sock2.sendall(("V").encode("utf-8"))
+                        else: sock2.sendall(("V").encode("utf-8"))
+                    elif(difference == -7): #DOWN AND RIGHT
+                        if(board[fromindex-3] == 1):
+                            board[fromindex-3] = 0
+                            board[fromindex] = 0
+                            board[toindex] = 2
+                        if(toindex>7):
+                            if(toindex%4 == 0):
+                                if(board[toindex-7] == 0 and board[toindex-3] == 1):
+                                    sock2.sendall(("A").encode("utf-8"))
+                                    goagain2 = 1
+                            elif(toindex%4 == 3):
+                                if(board[toindex-9] == 0 and board[toindex-4] == 1):
+                                    sock2.sendall(("A").encode("utf-8"))
+                                    goagain2 = 1
+                            elif((board[toindex-9] == 0 and board[toindex-4] == 2) or (board[toindex-7] == 0 and board[toindex-3] == 1)):
                                 sock2.sendall(("A").encode("utf-8"))
                                 goagain2 = 1
-                        elif((board[toindex-9] == 0 and board[toindex-5] == 2) or (board[toindex-7] == 0 and board[toindex-4] == 1)):
-                            sock2.sendall(("A").encode("utf-8"))
-                            goagain2 = 1
+                            else: sock2.sendall(("V").encode("utf-8"))
                         else: sock2.sendall(("V").encode("utf-8"))
                     else:
                         print("Invalid move")
