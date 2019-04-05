@@ -71,28 +71,68 @@ def inputDoubleJump(csoc):
 def inbounds(move):
     rows="ABCDEFGH"
     cols="12345678"
+    startindex=0
+    destindex=0
     m0 = False
     m1 = False
     m2 = False
     m3 = False
     total = False
-    for i in rows:
-        if(move[0] == i):
+    for i in range(8):
+        if(move[0] == rows[i]):
+            startindex += 8*(i)
             m0 = True
-        if(move[2] == i):
-            m2 = True
-    for j in cols:
-        if(move[1] == j):
+        if(move[1] == cols[i]):
+            startindex += (i)
             m1 = True
-        if(move[3] == j):
+        if(move[2] == rows[i]):
+            destindex += 8*(i)
+            m2 = True
+        if(move[3] == cols[i]):
+            destindex += (i)
             m3 = True
     total = m0 and m1 and m2 and m3
-    return total
+    valid = total
 
-def inputmove(csoc):
+    
+##    print(startindex)   #started here
+##    print(destindex)    #requested to move here
+##    if(total):
+##        if(destindex==startindex+7):    #move up left
+##            if(board[destindex]=='1'):  #if player1
+##                valid=False
+##            elif(board[destindex]=='2') #if player2
+##                if(board[destindex+7]=='0'):    #spot open behind it
+##                    valid=True
+##                else:
+##                    valid=False
+##            elif(board[destindex]=='0')
+##                valid=True
+##        elif(destindex==startindex+9):  #move up right
+
+    return valid
+
+##def validmoves(move,board):
+##    movelist = []
+##    startpos = move[0,1]
+##    dest = move[2,3]
+##    rows="ABCDEFGH"
+##    cols="12345678"
+##    
+##
+##
+##
+##    
+##    return movelist
+
+def inputmove(csoc,board):
     flag=0
     while(flag==0):
         move = input()
+
+        #debug, print list of valid moves
+        #print(validmoves(move,board))
+        
         while ((len(move) != 4) or not(inbounds(move))):
             if(len(move) != 4):
                 print("Please enter a valid 4 character move in the form of \n[currentrow][currentcolumn][nextrow][nextcolumn] \nfor example: C1D2")
@@ -128,7 +168,7 @@ def Application(csoc):
         print(board)
         printcheckboard(board)
         if(turn=="T"):          #if Turn, send 4 char move to server
-            inputmove(csoc)
+            inputmove(csoc,board)
     
             
 if __name__ == "__main__":
