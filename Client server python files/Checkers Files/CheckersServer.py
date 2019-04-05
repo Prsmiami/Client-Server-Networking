@@ -161,35 +161,46 @@ def Roomhandler(sock1, sock2, mask):
                     else:
                         print("Please select a space that is not occupied by another piece.")
                         sock1.sendall(("I").encode("utf-8"))
+                        goagain1=1
                 else:
                     print("Please select a piece that is yours. Your pieces are on the bottom.")
                     sock1.sendall(("I").encode("utf-8"))
+                    goagain1=1
             elif((ord(move[0]) == (ord(move[2])-2)) and (move[0] != 'H') and (move[0] != 'G')):
                 if(board[fromindex] == 1):
                     difference = toindex-fromindex
-                    if(difference == 10):
+                    if(difference == 9):
+                        if(board[fromindex+5] == 2):
+                            board[fromindex+5] = 0
+                            board[fromindex] = 0
+                            board[toindex] = 1
+                        if((board[toindex+9] == 0 and board[toindex+5] == 2) or (board[toindex+7] == 0 and board[toindex+4] == 2)):
+                            sock1.sendall(("A").encode("utf-8"))
+                            goagain1 = 1
+                        else: sock1.sendall(("V").encode("utf-8"))
+                    elif(difference == 7):
                         if(board[fromindex+4] == 2):
                             board[fromindex+4] = 0
                             board[fromindex] = 0
                             board[toindex] = 1
-                            sock1.sendall(("V").encode("utf-8"))
+                        if((board[toindex+9] == 0 and board[toindex+5] == 2) or (board[toindex+7] == 0 and board[toindex+4])):
+                            sock1.sendall(("A").encode("utf-8"))
                             goagain1 = 1
-                    elif(difference == 7):
-                        if(board[fromindex+3] == 2):
-                            board[fromindex+4] = 0
-                            board[fromindex] = 0
-                            board[toindex] = 1
-                            sock1.sendall(("V").encode("utf-8"))
-                            goagain1 = 1
+                        else: sock1.sendall(("V").encode("utf-8"))
                     else:
                         print("Invalid move")
                         sock1.sendall(("I").encode("utf-8"))
+                        goagain1=1
                 else:
                     print("Please select a piece that is yours. Your pieces are on the bottom")
                     sock1.sendall(("I").encode("utf-8"))
+                    goagain1=1
             if(goagain1 == 0):
                 turn = 2
 #0  #1  #3  #4  #5  #6  #7  #8 this is to check indentation
+
+
+                
         #BEGIN TURN CLIENT 2
         elif(turn == 2):
             goagain2 = 0
@@ -278,9 +289,11 @@ def Roomhandler(sock1, sock2, mask):
                     else:
                         print("Please select a space that is not occupied by another piece.")
                         sock2.sendall(("I").encode("utf-8"))
+                        goagain2=1
                 else:
                     print("Please select a piece that is yours. Your pieces are on the bottom.")
                     sock2.sendall(("I").encode("utf-8"))
+                    goagain2=1
             elif((ord(move[0]) == (ord(move[2])+2)) and (move[0] != 'A') and (move[0] != 'B')):
                 if(board[fromindex] == 2):
                     difference = toindex-fromindex
@@ -299,9 +312,11 @@ def Roomhandler(sock1, sock2, mask):
                     else:
                         print("Invalid move")
                         sock2.sendall(("I").encode("utf-8"))
+                        goagain2=1
                 else:
                     print("Please select a piece that is yours. Your pieces are on the bottom")
                     sock2.sendall(("I").encode("utf-8"))
+                    goagain2=1
             if(goagain1 == 0):
                 turn = 1
 
