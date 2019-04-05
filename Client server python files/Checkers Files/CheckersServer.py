@@ -174,7 +174,15 @@ def Roomhandler(sock1, sock2, mask):
                             board[fromindex+5] = 0
                             board[fromindex] = 0
                             board[toindex] = 1
-                        if((board[toindex+9] == 0 and board[toindex+5] == 2) or (board[toindex+7] == 0 and board[toindex+4] == 2)):
+                        if(toindex%4 == 0):
+                            if(board[toindex+9] == 0 and board[toindex+5] == 2):
+                                sock1.sendall(("A").encode("utf-8"))
+                                goagain1 = 1
+                        elif(toindex%4 == 3):
+                            if(board[toindex+7] == 0 and board[toindex+4] == 2):
+                                sock1.sendall(("A").encode("utf-8"))
+                                goagain1 = 1
+                        elif((board[toindex+9] == 0 and board[toindex+5] == 2) or (board[toindex+7] == 0 and board[toindex+4] == 2)):
                             sock1.sendall(("A").encode("utf-8"))
                             goagain1 = 1
                         else: sock1.sendall(("V").encode("utf-8"))
@@ -183,7 +191,15 @@ def Roomhandler(sock1, sock2, mask):
                             board[fromindex+4] = 0
                             board[fromindex] = 0
                             board[toindex] = 1
-                        if((board[toindex+9] == 0 and board[toindex+5] == 2) or (board[toindex+7] == 0 and board[toindex+4])):
+                        if(toindex%4 == 0):
+                            if(board[toindex+9] == 0 and board[toindex+5] == 2):
+                                sock1.sendall(("A").encode("utf-8"))
+                                goagain1 = 1
+                        elif(toindex%4 == 3):
+                            if(board[toindex+7] == 0 and board[toindex+4] == 2):
+                                sock1.sendall(("A").encode("utf-8"))
+                                goagain1 = 1
+                        elif((board[toindex+9] == 0 and board[toindex+5] == 2) or (board[toindex+7] == 0 and board[toindex+4] == 2)):
                             sock1.sendall(("A").encode("utf-8"))
                             goagain1 = 1
                         else: sock1.sendall(("V").encode("utf-8"))
