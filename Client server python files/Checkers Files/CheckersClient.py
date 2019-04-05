@@ -173,24 +173,22 @@ if __name__ == "__main__":
 
     print("Started Application")
 
-##    while(True):
-##        print("Please type either 'random' for a random opponent or a 6 digit alphanumeric room code for a match with a friend.")
-##        roomtype = ""
-##        roomtype = input()
-##
-##        print("You typed: ",roomtype,", is this correct?");
-##        confirmation = input();
-##        if(len(roomtype) == 6):
-##            if( confirmation == "y" or confirmation == "Y" or confirmation == "yes" or confirmation == "Yes"): break
-##        else: print("Must enter either 'random' or a 6 digit alphanumeric code")
-##
-##    if(roomtype == "random" or roomtype == "Random"):
-##        commsoc.sendall(("R").encode("utf-8"));
-##    else:
-##        commsoc.sendall(("C").encode("utf-8"));
-##        commsoc.sendall((roomtype).encode("utf-8"));
+    while(True):
+        print("Please type either 'random' for a random opponent or a 6 digit alphanumeric room code for a match with a friend.")
+        roomtype = ""
+        roomtype = input()
 
-    commsoc.sendall(("R").encode("utf-8")); #auto random room
+        print("You typed: ",roomtype,", is this correct?");
+        confirmation = input();
+        if(len(roomtype) == 6):
+            if( confirmation == "y" or confirmation == "Y" or confirmation == "yes" or confirmation == "Yes"): break
+        else: print("Must enter either 'random' or a 6 digit alphanumeric code")
+
+    if(roomtype == "random" or roomtype == "Random"):
+        commsoc.sendall(("R").encode("utf-8"));
+    else:
+        commsoc.sendall(("C").encode("utf-8"));
+        commsoc.sendall((roomtype).encode("utf-8"));
 
     
     # run the application protocol    

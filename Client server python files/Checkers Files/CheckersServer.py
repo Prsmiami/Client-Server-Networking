@@ -1,6 +1,7 @@
 import selectors
 import socket
 import threading
+import random
 
 def loopRecv(csoc, size):
     data = bytearray(b" "*size)
@@ -388,6 +389,7 @@ def Roomhandler(sock1, sock2, mask):
 
 def doRead(thesel, thesock, mask):
     data = thesock.recv(1)
+    namethread = str(random.randint(1, 1000000))
     global randomflag
     global randomopponent
     global waitlist
@@ -403,7 +405,7 @@ def doRead(thesel, thesock, mask):
                 randomopponent = thesock
                 randomflag = 1
             else:
-                t1 = threading.Thread(name="first", target=Roomhandler, args=(randomopponent,thesock,mask))
+                t1 = threading.Thread(name=namethread, target=Roomhandler, args=(randomopponent,thesock,mask))
                 t1.start()
                 thesel.unregister(randomopponent)
                 thesel.unregister(thesock)
@@ -414,7 +416,7 @@ def doRead(thesel, thesock, mask):
             print("Room number: ",data)
             while(tempptr != 0):
                 if(tempptr.roomcode == data):
-                    t1 = threading.Thread(name="first", target=Roomhandler, args=(tempptr.socket,thesock,mask))
+                    t1 = threading.Thread(name=namethread, target=Roomhandler, args=(tempptr.socket,thesock,mask))
                     t1.start()
                     thesel.unregister(tempptr.socket)
                     thesel.unregister(thesock)
