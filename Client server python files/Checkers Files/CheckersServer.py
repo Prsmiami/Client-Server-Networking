@@ -71,13 +71,13 @@ def Roomhandler(sock1, sock2, mask):
     board = [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2]
     while(endgame == 0):
         if(turn == 1):
-            if(goagain1 == 0):
-                sock1.sendall(('T').encode("utf-8"))
-                sock2.sendall(('N').encode("utf-8"))
-                for e in board:
-                    sock1.sendall(str(e).encode("utf-8"))
-                    sock2.sendall(str(e).encode("utf-8"))
-                print("about to send board before CLIENT1(one) move")
+            #if(goagain1 == 0):
+            sock1.sendall(('T').encode("utf-8"))
+            sock2.sendall(('N').encode("utf-8"))
+            for e in board:
+                sock1.sendall(str(e).encode("utf-8"))
+                sock2.sendall(str(e).encode("utf-8"))
+            print("about to send board before CLIENT1(one) move")
             goagain1 = 0
             move = (loopRecv(sock1,4)).decode()
             print(move)
@@ -115,6 +115,7 @@ def Roomhandler(sock1, sock2, mask):
                 base = 3
             elif(move[1] == '8'):
                 base = 3
+            extra = int(move[1])%2      ##extra for jump cols
             fromindex = base + (mult*4)
 
             if(move[2] == 'A'):
@@ -168,6 +169,7 @@ def Roomhandler(sock1, sock2, mask):
                     sock1.sendall(("I").encode("utf-8"))
                     goagain1=1
             elif((ord(move[0]) == (ord(move[2])-2)) and (move[0] != 'H') and (move[0] != 'G')):
+            
                 print("JUMP debug ",board[fromindex])
                 print(fromindex,"    ",board[fromindex])
                 print("difference =   ",toindex-fromindex)
@@ -176,40 +178,46 @@ def Roomhandler(sock1, sock2, mask):
                     difference = toindex-fromindex
                     print("DEBUG ",difference)  #
                     if(difference == 9): #UP AND RIGHT
-                        if(board[fromindex+4] == 2):
-                            board[fromindex+4] = 0
+                        print("fromindex right now is   ",fromindex)
+                        print("testing value in if statement,location of piece to jump=,,",board[fromindex+(4+(fromindex%2))]," AT LOCATION ",fromindex+(4+(fromindex%2)))
+                        if(board[fromindex+(5-(extra))] == 2):
+                            board[fromindex+(5-(extra))] = 0
                             board[fromindex] = 0
                             board[toindex] = 1
                         if(toindex<24):
                             if(toindex%4 == 0):
-                                if(board[toindex+9] == 0 and board[toindex+4] == 2):
+                                if(board[toindex+9] == 0 and board[toindex+(5-(extra))] == 2):
                                     sock1.sendall(("A").encode("utf-8"))
                                     goagain1 = 1
+                                else: sock1.sendall(("V").encode("utf-8"))
                             elif(toindex%4 == 3):
                                 print("out of bounds comes up with ",toindex+7)
-                                if(board[toindex+7] == 0 and board[toindex+3] == 2):
+                                if(board[toindex+7] == 0 and board[toindex+(4-(extra))] == 2):
                                     sock1.sendall(("A").encode("utf-8"))
                                     goagain1 = 1
-                            elif((board[toindex+9] == 0 and board[toindex+4] == 2) or (board[toindex+7] == 0 and board[toindex+3] == 2)):
+                                else: sock1.sendall(("V").encode("utf-8"))
+                            elif((board[toindex+9] == 0 and board[toindex+(5-(extra))] == 2) or (board[toindex+7] == 0 and board[toindex+(4-(extra))] == 2)):
                                 sock1.sendall(("A").encode("utf-8"))
                                 goagain1 = 1
                             else: sock1.sendall(("V").encode("utf-8"))
                         else: sock1.sendall(("V").encode("utf-8"))
                     elif(difference == 7): #UP AND LEFT
-                        if(board[fromindex+3] == 2):
-                            board[fromindex+3] = 0
+                        if(board[fromindex+(4-(extra))] == 2):
+                            board[fromindex+(4-(extra))] = 0
                             board[fromindex] = 0
                             board[toindex] = 1
                         if(toindex<24):
                             if(toindex%4 == 0):
-                                if(board[toindex+9] == 0 and board[toindex+4] == 2):
+                                if(board[toindex+9] == 0 and board[toindex+(5-(extra))] == 2):
                                     sock1.sendall(("A").encode("utf-8"))
                                     goagain1 = 1
+                                else: sock1.sendall(("V").encode("utf-8"))
                             elif(toindex%4 == 3):
-                                if(board[toindex+7] == 0 and board[toindex+3] == 2):
+                                if(board[toindex+7] == 0 and board[toindex+(4-(extra))] == 2):
                                     sock1.sendall(("A").encode("utf-8"))
                                     goagain1 = 1
-                            elif((board[toindex+9] == 0 and board[toindex+4] == 2) or (board[toindex+7] == 0 and board[toindex+3] == 2)):
+                                else: sock1.sendall(("V").encode("utf-8"))
+                            elif((board[toindex+9] == 0 and board[toindex+(5-(extra))] == 2) or (board[toindex+7] == 0 and board[toindex+(4-(extra))] == 2)):
                                 sock1.sendall(("A").encode("utf-8"))
                                 goagain1 = 1
                             else: sock1.sendall(("V").encode("utf-8"))
@@ -222,6 +230,7 @@ def Roomhandler(sock1, sock2, mask):
                     print("Please select a piece that is yours. Your pieces are on the bottom")
                     sock1.sendall(("I").encode("utf-8"))
                     goagain1=1
+            print("right before check if Turn1 should switch to Turn2")
             print("after move/jump loops")
             if(goagain1 == 0):
                 turn = 2
@@ -231,13 +240,13 @@ def Roomhandler(sock1, sock2, mask):
                 
         #BEGIN TURN CLIENT 2
         elif(turn == 2):
-            if(goagain2 == 0):
-                sock2.sendall(("T").encode("utf-8"))
-                sock1.sendall(("N").encode("utf-8"))
-                for e in board:
-                    sock1.sendall(str(e).encode("utf-8"))
-                    sock2.sendall(str(e).encode("utf-8"))
-                print("about to send board before CLIENT2 move")
+            #if(goagain2 == 0):
+            sock2.sendall(("T").encode("utf-8"))
+            sock1.sendall(("N").encode("utf-8"))
+            for e in board:
+                sock1.sendall(str(e).encode("utf-8"))
+                sock2.sendall(str(e).encode("utf-8"))
+            print("about to send board before CLIENT2 move")
             move = (loopRecv(sock2,4)).decode()
             print(move)
             print("Sent board after CLIENT2(two) move\n")
@@ -274,6 +283,7 @@ def Roomhandler(sock1, sock2, mask):
                 base = 3
             elif(move[1] == '8'):
                 base = 3
+            extra = int(move[1])%2      ##extra for jump cols
             fromindex = base + (mult*4)
 
             if(move[2] == 'A'):
@@ -309,7 +319,7 @@ def Roomhandler(sock1, sock2, mask):
             elif(move[3] == '8'):
                 base = 3
             toindex = base + (mult*4)
-
+            
             if((ord(move[0]) == (ord(move[2])+1)) and move[0] != 'A'):
                 if(board[fromindex] == 2):
                     if(board[toindex] == 0):
@@ -328,39 +338,41 @@ def Roomhandler(sock1, sock2, mask):
                 if(board[fromindex] == 2):
                     difference = toindex-fromindex
                     if(difference == -9): #DOWN AND LEFT
-                        if(board[fromindex-4] == 1):
-                            board[fromindex-4] = 0
+                        if(board[fromindex-(4+(extra))] == 1):
+                            board[fromindex-(4+(extra))] = 0
                             board[fromindex] = 0
                             board[toindex] = 2
                         if(toindex>7):
                             if(toindex%4 == 3):
-                                if(board[toindex-9] == 0 and board[toindex-4] == 1):
+                                if(board[toindex-9] == 0 and board[toindex-(4+(extra))] == 1):
                                     sock2.sendall(("A").encode("utf-8"))
                                     goagain2 = 1
+                                else: sock2.sendall(("V").encode("utf-8"))
                             elif(toindex%4 == 0):
-                                if(board[toindex-7] == 0 and board[toindex-3] == 1):
+                                if(board[toindex-7] == 0 and board[toindex-(3+(extra))] == 1):
                                     sock2.sendall(("A").encode("utf-8"))
                                     goagain2 = 1
-                            elif((board[toindex-9] == 0 and board[toindex-4] == 1) or (board[toindex-7] == 0 and board[toindex-3] == 1)):
+                                else: sock2.sendall(("V").encode("utf-8"))
+                            elif((board[toindex-9] == 0 and board[toindex-(4+(extra))] == 1) or (board[toindex-7] == 0 and board[toindex-(3+(extra))] == 1)):
                                 sock2.sendall(("A").encode("utf-8"))
                                 goagain2 = 1
                             else: sock2.sendall(("V").encode("utf-8"))
                         else: sock2.sendall(("V").encode("utf-8"))
                     elif(difference == -7): #DOWN AND RIGHT
-                        if(board[fromindex-3] == 1):
-                            board[fromindex-3] = 0
+                        if(board[fromindex-(3+(extra))] == 1):
+                            board[fromindex-(3+(extra))] = 0
                             board[fromindex] = 0
                             board[toindex] = 2
                         if(toindex>7):
                             if(toindex%4 == 0):
-                                if(board[toindex-7] == 0 and board[toindex-3] == 1):
+                                if(board[toindex-7] == 0 and board[toindex-(3+(extra))] == 1):
                                     sock2.sendall(("A").encode("utf-8"))
                                     goagain2 = 1
                             elif(toindex%4 == 3):
-                                if(board[toindex-9] == 0 and board[toindex-4] == 1):
+                                if(board[toindex-9] == 0 and board[toindex-(4+(extra))] == 1):
                                     sock2.sendall(("A").encode("utf-8"))
                                     goagain2 = 1
-                            elif((board[toindex-9] == 0 and board[toindex-4] == 2) or (board[toindex-7] == 0 and board[toindex-3] == 1)):
+                            elif((board[toindex-9] == 0 and board[toindex-(4+(extra))] == 2) or (board[toindex-7] == 0 and board[toindex-(3+(extra))] == 1)):
                                 sock2.sendall(("A").encode("utf-8"))
                                 goagain2 = 1
                             else: sock2.sendall(("V").encode("utf-8"))
@@ -377,7 +389,7 @@ def Roomhandler(sock1, sock2, mask):
                 turn = 1
 
         endgame = endgamecheck(board)
-        print(endgame)
+        print("VALUE OF ENDGAME:  ",endgame)
 
     if(endgame == 1):   
         sock1.sendall(("W").encode("utf-8"))
