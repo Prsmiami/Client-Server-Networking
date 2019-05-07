@@ -22,20 +22,21 @@ def baseTCPProtocolS(csoc):
     print("Ended baseTCPProtocol")
     
 
+
 if __name__ == "__main__":
     # create the server socket
     #  defaults family=AF_INET, type=SOCK_STREAM, proto=0, filno=None
     serversoc = socket.socket()
     
     # bind to local host:5000
-    serversoc.bind(("localhost",5000))
+    serversoc.bind(("localhost",55005))
                    
     # make passive with backlog=5
     serversoc.listen(5)
     
     # wait for incoming connections
     while True:
-        print("Listening on ", 5000)
+        print("Listening on ", 55005)
         
         # accept the connection
         commsoc, raddr = serversoc.accept()

@@ -29,7 +29,7 @@ if __name__ == "__main__":
     commsoc = socket.socket()
     
     # connect to localhost:5000
-    commsoc.connect(("localhost",50000))
+    commsoc.connect(("localhost",55005))
     
     # run the application protocol
     baseTCPProtocolC(commsoc)

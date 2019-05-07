@@ -19,8 +19,8 @@ def Application():
     #  defaults family=AF_INET, type=SOCK_STREAM, proto=0, filno=None
     csoc = socket.socket()
     
-    # connect to localhost:5000
-    csoc.connect(("localhost",50000))
+    # connect to localhost:x
+    csoc.connect(("localhost",55005))
 
     print("Started Application")
     print("Please do not use the '#' value in your message or alias")
@@ -34,7 +34,7 @@ def Application():
         size = 1000
         while (size > 999):
             rawmessage = input()
-            if(rawmessage == "leave"):
+            if(rawmessage == "bye"):
                 exit()
             message = str(datetime.datetime.now())[11:-7]
             message += "#"
@@ -114,7 +114,7 @@ def Application():
 ##        #store message
 ##        message = message[messagelen+1:]
 ##
-##        if(message == "leave"):
+##        if(message == "bye"):
 ##            exit()
 ##
 ##        #temp = str(datetime.datetime.now())[11:-7]
@@ -202,10 +202,10 @@ if __name__ == "__main__":
     t2.start()
     t1.start()
 
-
-##    # run the application protocol
-##    while True:
+    # run the application protocol
+    while True:
+          Application()
 ##        Application(commsoc,alias)
     
-    # close the comm socket
-
+##    # close the comm socket
+##    commsoc.close()

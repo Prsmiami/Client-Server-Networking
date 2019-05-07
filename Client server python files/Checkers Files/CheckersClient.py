@@ -169,7 +169,7 @@ if __name__ == "__main__":
     commsoc = socket.socket()
     
     # connect to localhost:5000
-    commsoc.connect(("localhost",50000))
+    commsoc.connect(("18.220.115.102",50000))
 
     print("Started Application")
 
